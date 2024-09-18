@@ -1,0 +1,37 @@
+digraph G {
+    node [shape=box, style=filled, fillcolor=lightgray];
+
+    subgraph cluster_2PC {
+        label="2-Phase Commit";
+        style=dashed;
+
+        Master_2PC [label="Master (Coordinator)"];
+        Slave1_2PC [label="Slave 1 (prepare/commit)"];
+        Slave2_2PC [label="Slave 2 (prepare/commit)"];
+
+        Master_2PC -> Slave1_2PC [label="Prepare"];
+        Master_2PC -> Slave2_2PC [label="Prepare"];
+        Slave1_2PC -> Master_2PC [label="OK/Fail"];
+        Slave2_2PC -> Master_2PC [label="OK/Fail"];
+        Master_2PC -> Slave1_2PC [label="Commit/Rollback"];
+        Master_2PC -> Slave2_2PC [label="Commit/Rollback"];
+    }
+
+    subgraph cluster_SplitBrain {
+        label="Split Brain";
+        style=dashed;
+
+        Master_SB [label="Master (Independent)"];
+        Slave1_SB [label="Slave 1 (Independent)"];
+        Slave2_SB [label="Slave 2 (Independent)"];
+
+        Master_SB -> Slave1_SB [label="Rollback/Conflict", style=dotted];
+        Master_SB -> Slave2_SB [label="Rollback/Conflict", style=dotted];
+        Slave1_SB -> Master_SB [label="Transaction Decision", style=dotted];
+        Slave2_SB -> Master_SB [label="Transaction Decision", style=dotted];
+    }
+
+    { rank=same; Master_2PC; Master_SB; }
+    { rank=same; Slave1_2PC; Slave1_SB; }
+    { rank=same; Slave2_2PC; Slave2_SB; }
+}
