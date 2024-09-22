@@ -1,6 +1,6 @@
 # Грейды разработчиков
 
-Для формирования грейдов последовательно выполнить [промпт](https://github.com/Hedgehogues/awesome-prompts/tree/main/promts), как описано в [логе](https://chatgpt.com/share/66f065ed-51e8-8003-9f62-9c189459951e), каждый раз выполняя целиком промпт с разными параметрами:
+Для формирования грейдов последовательно выполнить [промпт](https://github.com/Hedgehogues/awesome-prompts/tree/main/promts), как описано в [логе](https://chatgpt.com/share/66f07481-6fb0-8003-a778-6e386c263d59), каждый раз выполняя целиком промпт с разными параметрами:
 - junior
 - middle
 - senior
