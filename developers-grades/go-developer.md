@@ -6,6 +6,8 @@
 - senior
 - staff/principal
 
+Model: gpt-4o
+
 ## Junior
 
 ### Интересы и личная позиция
