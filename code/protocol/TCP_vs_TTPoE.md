@@ -66,7 +66,7 @@
 
 
 # Ссылки
-- [opennet.ru](https://www.opennet.ru/opennews/art.shtml?num=61920
+- [opennet.ru](https://www.opennet.ru/opennews/art.shtml?num=61920)
 - [TTPoE](https://github.com/teslamotors/ttpoe/)
 - [TTPoE Specification](https://github.com/teslamotors/ttpoe/blob/master/doc/TTPoE_Protocol_Specification.pdf)
 - [TCP FSM](https://www.cs.montana.edu/courses/spring2004/440/topics/15-transport/lectures/slideset2.pdf)
