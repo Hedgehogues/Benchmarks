@@ -57,6 +57,17 @@
 - Window Size (Оконный размер). Важный параметр TCP для управления потоком данных, определяющий, сколько байтов данных может быть отправлено до получения подтверждения (ACK).
 - Rx_seq (Receive Sequence). Номер последовательности принятых данных, который отслеживает, какой объем данных был получен от отправляющей стороны.
 
+# FSM
+## TCP
+<img width="607" alt="Screenshot 2024-09-27 at 12 05 33" src="https://github.com/user-attachments/assets/41b45271-e255-4459-a71b-6f56a306b603">
+
+## TTPoE
+<img width="768" alt="Screenshot 2024-09-27 at 12 06 52" src="https://github.com/user-attachments/assets/8cb03ffd-f749-45b9-88f0-0e060a123dd2">
+
+
 # Ссылки
-- [opennet.ru](https://www.opennet.ru/opennews/art.shtml?num=61920)
+- [opennet.ru](https://www.opennet.ru/opennews/art.shtml?num=61920
 - [TTPoE](https://github.com/teslamotors/ttpoe/)
+- [TTPoE Specification](https://github.com/teslamotors/ttpoe/blob/master/doc/TTPoE_Protocol_Specification.pdf)
+- [TCP FSM](https://www.cs.montana.edu/courses/spring2004/440/topics/15-transport/lectures/slideset2.pdf)
+- [TCP RFC](https://www.ietf.org/rfc/rfc793.txt)
