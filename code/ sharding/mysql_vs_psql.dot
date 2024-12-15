@@ -1,0 +1,92 @@
+digraph G {
+    rankdir=TB;
+    node [shape=box, style=filled, fontname="Arial", color=lightgrey];
+
+    // MySQL Deployment Units
+    subgraph cluster_mysql {
+        label = "MySQL Sharding Architecture";
+        color = lightblue;
+        node [style=filled, color=lightyellow];
+
+        subgraph cluster_mysql_app {
+            label = "Deployment Unit: Application Layer";
+            color = lightgrey;
+
+            mysql_app_logic [label="Application Sharding Logic"];
+            mysql_query_router [label="Query Router (ProxySQL)"];
+            mysql_connection_pooler [label="Connection Pooler (MySQL Router)"];
+        }
+
+        subgraph cluster_mysql_shard1 {
+            label = "Deployment Unit: Shard 1";
+            color = lightgreen;
+
+            mysql_shard1_primary [label="Primary Node (MySQL Instance)"];
+            mysql_shard1_replica [label="Replica Node (Group Replication)"];
+        }
+
+        subgraph cluster_mysql_shard2 {
+            label = "Deployment Unit: Shard 2";
+            color = lightgreen;
+
+            mysql_shard2_primary [label="Primary Node (MySQL Instance)"];
+            mysql_shard2_replica [label="Replica Node (Group Replication)"];
+        }
+
+        // Connections for MySQL
+        mysql_app_logic -> mysql_query_router [label="Route Queries"];
+        mysql_query_router -> mysql_shard1_primary [label="Target Shard"];
+        mysql_query_router -> mysql_shard2_primary;
+        mysql_shard1_primary -> mysql_shard1_replica [label="Group Replication"];
+        mysql_shard2_primary -> mysql_shard2_replica [label="Group Replication"];
+        mysql_connection_pooler -> mysql_query_router [label="Manage Connections"];
+    }
+
+    // PostgreSQL Deployment Units
+    subgraph cluster_postgresql {
+        label = "PostgreSQL Sharding Architecture";
+        color = lightblue;
+        node [style=filled, color=lightcyan];
+
+        subgraph cluster_postgresql_coordinator {
+            label = "Deployment Unit: Coordinator";
+            color = lightgrey;
+
+            pg_query_coordinator [label="Query Coordinator (PostgreSQL Instance)"];
+            pg_partition_manager [label="Partition Manager"];
+            pg_fdw [label="Foreign Data Wrappers (FDW)"];
+            pg_connection_pooler [label="Connection Pooler (PgBouncer)"];
+        }
+
+        subgraph cluster_postgresql_shard1 {
+            label = "Deployment Unit: Shard 1";
+            color = lightgreen;
+
+            pg_shard1_primary [label="Primary Node (PostgreSQL Instance)"];
+            pg_shard1_replica [label="Replica Node (Logical Replication)"];
+        }
+
+        subgraph cluster_postgresql_shard2 {
+            label = "Deployment Unit: Shard 2";
+            color = lightgreen;
+
+            pg_shard2_primary [label="Primary Node (PostgreSQL Instance)"];
+            pg_shard2_replica [label="Replica Node (Logical Replication)"];
+        }
+
+        // Connections for PostgreSQL
+        pg_query_coordinator -> pg_partition_manager [label="Manage Partitioned Tables"];
+        pg_partition_manager -> pg_fdw [label="Cross-Shard Queries"];
+        pg_fdw -> pg_shard1_primary [label="Access Shard"];
+        pg_fdw -> pg_shard2_primary;
+        pg_shard1_primary -> pg_shard1_replica [label="Logical Replication"];
+        pg_shard2_primary -> pg_shard2_replica [label="Logical Replication"];
+        pg_connection_pooler -> pg_query_coordinator [label="Manage Connections"];
+    }
+
+    // Comparison Links
+    mysql_app_logic -> pg_partition_manager [label="Sharding Logic", style=dashed];
+    mysql_query_router -> pg_query_coordinator [label="Routing & Planning", style=dashed];
+    mysql_shard1_primary -> pg_fdw [label="Cross-Shard Queries", style=dashed];
+    mysql_shard1_replica -> pg_shard1_replica [label="Replication", style=dashed];
+}
