@@ -1,0 +1,36 @@
+digraph MonitoringComparison {
+    rankdir=LR;
+    
+    subgraph cluster_Zabbix {
+        label="Zabbix";
+        style=dashed;
+        
+        Zabbix_Agents [label="Агенты (Push)", shape=box];
+        Zabbix_DB [label="Реляционная БД", shape=cylinder];
+        Zabbix_Alerts [label="Триггеры и Уведомления", shape=box];
+        Zabbix_Dashboards [label="Встроенные Дашборды", shape=box];
+        
+        Zabbix_Agents -> Zabbix_DB [label="Отправка метрик"];
+        Zabbix_DB -> Zabbix_Alerts [label="Анализ данных"];
+        Zabbix_DB -> Zabbix_Dashboards [label="Визуализация"];
+    }
+    
+    subgraph cluster_Prometheus_Grafana {
+        label="Grafana + Prometheus";
+        style=dashed;
+        
+        Prometheus_Scrape [label="Экспортеры (Pull)", shape=box];
+        Prometheus_TSDB [label="Time Series DB", shape=cylinder];
+        Alertmanager [label="Alertmanager", shape=box];
+        Grafana_Dashboards [label="Grafana Дашборды", shape=box];
+        
+        Prometheus_Scrape -> Prometheus_TSDB [label="Сбор метрик"];
+        Prometheus_TSDB -> Alertmanager [label="Обнаружение аномалий"];
+        Prometheus_TSDB -> Grafana_Dashboards [label="Графики и Анализ"];
+    }
+    
+    Zabbix_Agents -> Prometheus_Scrape [style=dotted, label="Push vs Pull"];
+    Zabbix_DB -> Prometheus_TSDB [style=dotted, label="Тип БД"];
+    Zabbix_Alerts -> Alertmanager [style=dotted, label="Гибкость алертов"];
+    Zabbix_Dashboards -> Grafana_Dashboards [style=dotted, label="Кастомизация"];
+}
